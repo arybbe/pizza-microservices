@@ -14,15 +14,20 @@ Två små .NET 8-mikrotjänster (MenuService & OrderService) + SQL Server 2022, 
 ```bash
    git clone <https://github.com/arybbe/pizza-microservices.git>
    cd pizza-microservices
+```
 
 2. Bygg & starta alla tjänster
 
+```bash
     docker compose up --build   # första gången
     docker compose up -d        # kör i bakgrunden vid omstart
+```
 
 3. Stäng av & ta bort volymer
 
+```bash
     docker compose down -v
+```
 
 | Tjänst           | URL                                                            | Beskrivning                       |
 | ---------------- | -------------------------------------------------------------- | --------------------------------- |
