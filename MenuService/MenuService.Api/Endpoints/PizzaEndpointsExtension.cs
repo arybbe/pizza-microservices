@@ -19,6 +19,16 @@ public static class PizzaEndpointsExtension
         grp.MapPost("/", async (Pizza pizza, IPizzaRepository repo, CancellationToken ct) =>
             Results.Created($"/api/pizzas/{pizza.Id}", await repo.AddAsync(pizza, ct)));
 
+        grp.MapPut("/", async (Pizza pizza, IPizzaRepository repo, CancellationToken ct) =>
+            await repo.UpdateAsync(pizza, ct)
+                ? Results.Ok(pizza)
+                : Results.NotFound());
+
+        grp.MapDelete("/{id:int}", async (int id, IPizzaRepository repo, CancellationToken ct) =>
+            await repo.DeleteAsync(id, ct)
+                ? Results.NoContent()
+                : Results.NotFound());
+
         return app;
     }
 }

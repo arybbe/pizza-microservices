@@ -23,4 +23,28 @@ public class PizzaRepository(MenuContext dbContext) : IPizzaRepository
         await dbContext.SaveChangesAsync(ct);
         return pizza;
     }
+
+    public async Task<bool> DeleteAsync(int id, CancellationToken ct)
+    {
+        var pizza = await dbContext.Pizzas.FindAsync(new object[] { id }, ct);
+        if (pizza == null)
+        {
+            return false;
+        }
+        dbContext.Pizzas.Remove(pizza);
+        await dbContext.SaveChangesAsync(ct);
+        return true;
+    }
+
+    public async Task<bool> UpdateAsync(Pizza pizza, CancellationToken ct)
+    {
+        var existingPizza = await dbContext.Pizzas.FindAsync(new object[] { pizza.Id }, ct);
+        if (existingPizza == null)
+        {
+            return false;
+        }
+        dbContext.Entry(existingPizza).CurrentValues.SetValues(pizza);
+        await dbContext.SaveChangesAsync(ct);
+        return true;
+    }
 }
