@@ -11,7 +11,8 @@ Två små .NET 8-mikrotjänster (MenuService & OrderService) + SQL Server 2022, 
 
 1. Klona repot  
 
-   git clone https://github.com/arybbe/pizza-microservices.git
+```bash
+   git clone <https://github.com/arybbe/pizza-microservices.git>
    cd pizza-microservices
 
 2. Bygg & starta alla tjänster
