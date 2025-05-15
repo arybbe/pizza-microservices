@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+
+    sql:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        container_name: sqlserver
+        environment:
+            ACCEPT_EULA: "Y"
+            SA_PASSWORD: "Your_password123!"
+        ports:
+            - "1433:1433" # åtkomst utifrån (SSMS etc)
+        volumes:
+            - sql_data:/var/opt/mssql # persistens för databasen
+
+    menuservice:
+        build:
+            context: .
+            dockerfile: MenuService/MenuService.Api/Dockerfile
+        depends_on:
+            - sql
+        environment:
+            ConnectionStrings__MenuServiceDb: "Server=sql,1433;Database=MenuServiceDb;User Id=sa;Password=Your_password123!;Encrypt=True;TrustServerCertificate=True"
+        ports:
+            - "5001:8080"
+
+    orderservice:
+        build:
+            context: .
+            dockerfile: OrderService/OrderService.Api/Dockerfile
+        depends_on:
+            - sql
+        environment:
+            ConnectionStrings__OrderServiceDb: "Server=sql,1433;Database=OrderServiceDb;User Id=sa;Password=Your_password123!;Encrypt=True;TrustServerCertificate=True"
+        ports:
+            - "5002:8080"
+
+volumes:
+    sql_data:

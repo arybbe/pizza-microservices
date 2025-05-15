@@ -13,5 +13,9 @@ public class OrderContext(DbContextOptions<OrderContext> options) : DbContext(op
             .HasMany(o => o.Items)
             .WithOne()
             .OnDelete(DeleteBehavior.Cascade); // Tar bort alla OrderItems när Order tas bort
+
+        modelBuilder.Entity<OrderItem>()
+            .Property(i => i.UnitPrice)
+            .HasPrecision(18, 2); // Precision för UnitPrice
     }
 }

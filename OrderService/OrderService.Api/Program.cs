@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using OrderService.Api.Endpoints;
 using OrderService.Domain;
 using OrderService.Infrastructure;
@@ -15,6 +16,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<OrderContext>();
+    dbContext.Database.Migrate();
+}
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
